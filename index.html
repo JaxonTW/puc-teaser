@@ -61,7 +61,7 @@ function signUp() {
   var message = document.getElementById("message");
 
   if (email.includes("@")) {
-    fetch("http://localhost:5000/signup", {
+    fetch("https://formspree.io/f/xbgooqzk", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email })
