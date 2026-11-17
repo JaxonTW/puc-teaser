@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>P.U.C.</title>
+  <style>
+    body { background: #1a1a2e; color: orange; font-family: sans-serif; text-align: center; }
+    h1 { color: #ff6b35; }
+    .cards { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .card { background: #16213e; border: 2px solid #ff6b35; border-radius: 12px;
+            padding: 20px; width: 180px; cursor: pointer; }
+    .card:hover { background: #0f3460; }
+    .weapons { display: none; color: #ffd166; margin-top: 10px; }
+    .fire {border-color: red; }
+    .bullet {border-color: orange; }
+    .boom {border-color: yellow; }
+    .stealth { border-color: #4169e1; }
+input { padding: 10px; border-radius: 8px; border: 2px solid #ff6b35; }
+button { padding: 10px 16px; border-radius: 8px; border: none;
+         background: #ff6b35; color: white; cursor: pointer; }
+#countdown { color: #ffd166; font-size: 28px; }
+  </style>
+</head>
+<body>
+  <h1>Pure Utter Chaos</h1>
+  <p>Click a class to see its arsenal</p>
+<h2 id="countdown"></h2>
+
+  <div class="cards">
+    <div class="card fire" onclick="showWeapons('Pyromaniac')">
+      <h2>Pyromaniac</h2>
+      <p class="weapons" id="Pyromaniac">this man dual wields two small but high capacity flame throwers, with his special homemade molotovs can burn for a while! and low caliber incendiary round shot right out of an old luger! </p>
+    </div>
+    <div class="card bullet" onclick="showWeapons('Gung-Ho')">
+      <h2>Gung-Ho</h2>
+      <p class="weapons" id="Gung-Ho">this man carries an arsenal of ARs, SMGs, and police batons, where he got all of this? i couldn't start to think...</p>
+    </div>
+    <div class="card boom" onclick="showWeapons('K-B00M')">
+      <h2>K-B00M</h2>
+      <p class="weapons" id="K-B00M">Grenades to the maximum! i don't know how he gets so many but he has got so many bombs, shotguns, and C4!</p>
+    </div>
+    <div class="card stealth" onclick="showWeapons('ShadowStepper')">
+      <h2>ShadowStepper</h2>
+      <p class="weapons" id="ShadowStepper">long ranged rifle, or sniper for short. accompanied with a powerful knife, mostly effective from behind, and a totally rad cloaking device!!!</p>
+    </div>
+  </div>
+<h2>Get notified at launch!</h2>
+<input type="email" id="emailbox" placeholder="you@example.com">
+<button onclick="signUp()">sign me up!</button>
+<p id="message"></p>
+  <script>
+    function showWeapons(id) {
+      var box = document.getElementById(id);
+      if (box.style.display === "block") {
+        box.style.display = "none";
+      } else {
+        box.style.display = "block";
+      }
+    }
+function signUp() {
+  var email = document.getElementById("emailbox").value;
+  var message = document.getElementById("message");
+
+  if (email.includes("@")) {
+    fetch("http://localhost:5000/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email })
+    })
+    .then(function() {
+      message.textContent = "You're on the list!";
+    })
+    .catch(function() {
+      message.textContent = "Something went wrong. Try again!";
+    });
+  } else {
+    message.textContent = "Hmm, that doesn't look like an email. Try again!";
+  }
+}function updateCountdown() {
+  var launchDate = new Date("December 10, 2026 00:00:00");
+  var now = new Date();
+  var difference = launchDate - now;
+
+  var days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+  var minutes = Math.floor((difference / (1000 * 60)) % 60);
+  var seconds = Math.floor((difference / 1000) % 60);
+  
+  document.getElementById("countdown").textContent =
+    days + "d " + hours + "h " + minutes + "m " + seconds + "s until chaos";
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+  </script>
+<img src="PUC.png" alt="P.U.C. concept art" width="600" style="transform: rotate(-90deg);">
+</body>
+</html>
